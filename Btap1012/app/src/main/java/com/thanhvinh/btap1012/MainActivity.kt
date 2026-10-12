@@ -19,32 +19,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Ánh xạ các thành phần
+        // Ánh xạ các thành phần giao diện
         tvThongTinSinhVien = findViewById(R.id.tvThongTinSinhVien)
         etTenCongViec = findViewById(R.id.etTenCongViec)
         etMoTa = findViewById(R.id.etMoTa)
         btnTaoCongViec = findViewById(R.id.btnTaoCongViec)
         btnXemDanhSach = findViewById(R.id.btnXemDanhSach)
 
-        // XỬ LÝ CÂU 2: Nhấn nút Tạo công việc và dùng Intent truyền dữ liệu
+        // Xử lý sự kiện khi bấm nút Tạo công việc
         btnTaoCongViec.setOnClickListener {
-            // Lấy chuỗi văn bản người dùng đã nhập
             val ten = etTenCongViec.text.toString()
             val moTa = etMoTa.text.toString()
 
-            // Tạo Intent để chuyển từ MainActivity sang ChiTietCongViecActivity
+            // Tạo đối tượng CongViec (Câu 4)
+            val congViecMoi = CongViec(ten, moTa)
+
+            // Tạo Intent và truyền nguyên đối tượng qua màn hình ChiTietCongViecActivity
             val intent = Intent(this, ChiTietCongViecActivity::class.java)
+            intent.putExtra("OBJ_CONG_VIEC", congViecMoi)
 
-            // Gói dữ liệu vào Intent bằng putExtra
-            intent.putExtra("TEN_CONG_VIEC", ten)
-            intent.putExtra("MO_TA_CONG_VIEC", moTa)
-
-            // Bắt đầu chuyển màn hình
             startActivity(intent)
         }
 
+        // Xử lý nút xem danh sách (Đề không yêu cầu xử lý logic màn hình này nên để trống)
         btnXemDanhSach.setOnClickListener {
-            // Nút này chưa có yêu cầu xử lý
+
         }
     }
 }

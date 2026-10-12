@@ -16,28 +16,32 @@ class ChinhSuaCongViecActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chinh_sua_cong_viec)
 
+        // Ánh xạ các thành phần giao diện
         etSuaTenCongViec = findViewById(R.id.etSuaTenCongViec)
         etSuaMoTa = findViewById(R.id.etSuaMoTa)
         btnLuuCongViec = findViewById(R.id.btnLuuCongViec)
 
-        // Nhận dữ liệu hiện tại để hiển thị lên EditText
-        val tenHienTai = intent.getStringExtra("TEN_HIEN_TAI")
-        val moTaHienTai = intent.getStringExtra("MO_TA_HIEN_TAI")
-        etSuaTenCongViec.setText(tenHienTai)
-        etSuaMoTa.setText(moTaHienTai)
+        // Nhận Object CongViec hiện tại từ ChiTietCongViecActivity để điền lên giao diện
+        val congViecHienTai = intent.getSerializableExtra("OBJ_CONG_VIEC_HIEN_TAI") as? CongViec
 
-        // Xử lý nút Lưu
+        // Hiển thị dữ liệu cũ lên EditText để người dùng sửa
+        etSuaTenCongViec.setText(congViecHienTai?.tenCongViec)
+        etSuaMoTa.setText(congViecHienTai?.moTa)
+
+        // Xử lý sự kiện khi bấm nút Lưu
         btnLuuCongViec.setOnClickListener {
-            // Lấy dữ liệu mới nhập
-            val tenMoi = etSuaTenCongViec.text.toString()
-            val moTaMoi = etSuaMoTa.text.toString()
+            // Lấy dữ liệu mới nhập và đóng gói thành một Object CongViec mới
+            val cvSuaXong = CongViec(
+                tenCongViec = etSuaTenCongViec.text.toString(),
+                moTa = etSuaMoTa.text.toString(),
+                trangThai = congViecHienTai?.trangThai ?: false // Giữ nguyên trạng thái hoàn thành cũ
+            )
 
-            // Dùng Intent để gói dữ liệu trả về (không dùng startActivity)
+            // Dùng Intent để gói Object trả về
             val intentTraVe = Intent()
-            intentTraVe.putExtra("TEN_MOI", tenMoi)
-            intentTraVe.putExtra("MO_TA_MOI", moTaMoi)
+            intentTraVe.putExtra("OBJ_CONG_VIEC_MOI", cvSuaXong)
 
-            // Đặt Result là OK và gắn intent mang dữ liệu
+            // Đặt Result là OK và gắn intent mang dữ liệu trả về
             setResult(RESULT_OK, intentTraVe)
 
             // Đóng Activity này để quay về màn hình Chi tiết
