@@ -12,21 +12,20 @@ class ChiTietCongViecActivity : AppCompatActivity() {
     private lateinit var tvTenCongViecChiTiet: TextView
     private lateinit var tvMoTaChiTiet: TextView
     private lateinit var btnChinhSua: Button
+    private lateinit var btnHoanThanh: Button
 
-    // Đổi thành dùng Object thay vì String rời rạc
     private lateinit var congViecHienTai: CongViec
 
+    // Hứng kết quả từ màn hình chỉnh sửa trả về
     private val dangKySuaCongViec = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             val dataTraVe = result.data
-            // Nhận object mới sửa từ bên kia về
             val cvMoi = dataTraVe?.getSerializableExtra("OBJ_CONG_VIEC_MOI") as? CongViec
 
             if (cvMoi != null) {
-                congViecHienTai = cvMoi
-                // Gọi hàm layThongTin() từ class để hiển thị thẳng lên 1 TextView
+                congViecHienTai = cvMoi // Ghi đè object cũ bằng object mới
                 tvTenCongViecChiTiet.text = congViecHienTai.layThongTin()
-                tvMoTaChiTiet.text = "" // Xóa rỗng text này vì hàm trên đã gộp chung tên và mô tả
+                tvMoTaChiTiet.text = ""
             }
         }
     }
@@ -38,17 +37,24 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         tvTenCongViecChiTiet = findViewById(R.id.tvTenCongViecChiTiet)
         tvMoTaChiTiet = findViewById(R.id.tvMoTaChiTiet)
         btnChinhSua = findViewById(R.id.btnChinhSua)
+        btnHoanThanh = findViewById(R.id.btnHoanThanh)
 
         // Nhận Object từ MainActivity
         congViecHienTai = intent.getSerializableExtra("OBJ_CONG_VIEC") as CongViec
 
-        // Hiển thị thông qua hàm của class
+        // Hiển thị lần đầu
         tvTenCongViecChiTiet.text = congViecHienTai.layThongTin()
         tvMoTaChiTiet.text = ""
 
+        // Câu 5: Đánh dấu hoàn thành
+        btnHoanThanh.setOnClickListener {
+            congViecHienTai.trangThai = true
+            tvTenCongViecChiTiet.text = congViecHienTai.layThongTin()
+        }
+
+        // Chuyển sang màn hình sửa
         btnChinhSua.setOnClickListener {
             val intent = Intent(this, ChinhSuaCongViecActivity::class.java)
-            // Gửi Object hiện tại qua màn hình Sửa
             intent.putExtra("OBJ_CONG_VIEC_HIEN_TAI", congViecHienTai)
             dangKySuaCongViec.launch(intent)
         }
