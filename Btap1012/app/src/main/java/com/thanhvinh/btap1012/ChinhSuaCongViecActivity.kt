@@ -16,35 +16,33 @@ class ChinhSuaCongViecActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chinh_sua_cong_viec)
 
-        // Ánh xạ các thành phần giao diện
         etSuaTenCongViec = findViewById(R.id.etSuaTenCongViec)
         etSuaMoTa = findViewById(R.id.etSuaMoTa)
         btnLuuCongViec = findViewById(R.id.btnLuuCongViec)
 
-        // Nhận Object CongViec hiện tại từ ChiTietCongViecActivity để điền lên giao diện
+        // Nhận dữ liệu cũ hiển thị lên màn hình
         val congViecHienTai = intent.getSerializableExtra("OBJ_CONG_VIEC_HIEN_TAI") as? CongViec
-
-        // Hiển thị dữ liệu cũ lên EditText để người dùng sửa
         etSuaTenCongViec.setText(congViecHienTai?.tenCongViec)
         etSuaMoTa.setText(congViecHienTai?.moTa)
 
-        // Xử lý sự kiện khi bấm nút Lưu
         btnLuuCongViec.setOnClickListener {
-            // Lấy dữ liệu mới nhập và đóng gói thành một Object CongViec mới
+            val tenMoi = etSuaTenCongViec.text.toString().trim()
+
+            // Câu 5: Báo lỗi nếu tên chỉnh sửa bị để trống
+            if (tenMoi.isEmpty()) {
+                etSuaTenCongViec.error = "Tên công việc không được để trống!"
+                return@setOnClickListener
+            }
+
             val cvSuaXong = CongViec(
-                tenCongViec = etSuaTenCongViec.text.toString(),
+                tenCongViec = tenMoi,
                 moTa = etSuaMoTa.text.toString(),
-                trangThai = congViecHienTai?.trangThai ?: false // Giữ nguyên trạng thái hoàn thành cũ
+                trangThai = congViecHienTai?.trangThai ?: false // Giữ nguyên trạng thái cũ
             )
 
-            // Dùng Intent để gói Object trả về
             val intentTraVe = Intent()
             intentTraVe.putExtra("OBJ_CONG_VIEC_MOI", cvSuaXong)
-
-            // Đặt Result là OK và gắn intent mang dữ liệu trả về
             setResult(RESULT_OK, intentTraVe)
-
-            // Đóng Activity này để quay về màn hình Chi tiết
             finish()
         }
     }
