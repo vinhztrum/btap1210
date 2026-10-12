@@ -19,31 +19,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Ánh xạ các thành phần giao diện
         tvThongTinSinhVien = findViewById(R.id.tvThongTinSinhVien)
         etTenCongViec = findViewById(R.id.etTenCongViec)
         etMoTa = findViewById(R.id.etMoTa)
         btnTaoCongViec = findViewById(R.id.btnTaoCongViec)
         btnXemDanhSach = findViewById(R.id.btnXemDanhSach)
 
-        // Xử lý sự kiện khi bấm nút Tạo công việc
         btnTaoCongViec.setOnClickListener {
-            val ten = etTenCongViec.text.toString()
+            val ten = etTenCongViec.text.toString().trim()
             val moTa = etMoTa.text.toString()
 
-            // Tạo đối tượng CongViec (Câu 4)
-            val congViecMoi = CongViec(ten, moTa)
+            // Câu 5: Báo lỗi nếu tên công việc để trống
+            if (ten.isEmpty()) {
+                etTenCongViec.error = "Tên công việc không được để trống!"
+                return@setOnClickListener
+            }
 
-            // Tạo Intent và truyền nguyên đối tượng qua màn hình ChiTietCongViecActivity
+            // Tạo Object và chuyển màn hình
+            val congViecMoi = CongViec(ten, moTa)
             val intent = Intent(this, ChiTietCongViecActivity::class.java)
             intent.putExtra("OBJ_CONG_VIEC", congViecMoi)
-
             startActivity(intent)
         }
 
-        // Xử lý nút xem danh sách (Đề không yêu cầu xử lý logic màn hình này nên để trống)
         btnXemDanhSach.setOnClickListener {
-
+            // Nút xem danh sách (không yêu cầu logic)
         }
     }
 }
