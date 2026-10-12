@@ -39,7 +39,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         // Ánh xạ giao diện
         tvTenCongViecChiTiet = findViewById(R.id.tvTenCongViecChiTiet)
         tvMoTaChiTiet = findViewById(R.id.tvMoTaChiTiet)
-        btnChinhSua = findViewById(R.id.btnChinhSua) // Nút này phải có trong file activity_chi_tiet_cong_viec.xml
+        btnChinhSua = findViewById(R.id.btnChinhSua) 
 
         // Nhận dữ liệu ban đầu từ MainActivity gửi qua
         tenHienTai = intent.getStringExtra("TEN_CONG_VIEC")
@@ -56,7 +56,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
             intent.putExtra("TEN_HIEN_TAI", tenHienTai)
             intent.putExtra("MO_TA_HIEN_TAI", moTaHienTai)
 
-            // Dùng launcher đã đăng ký ở trên để gọi Activity (Không dùng startActivity)
+            // Dùng launcher đã đăng ký ở trên để gọi Activity
             dangKySuaCongViec.launch(intent)
         }
     }
