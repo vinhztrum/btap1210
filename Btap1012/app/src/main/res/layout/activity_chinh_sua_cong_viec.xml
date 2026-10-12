@@ -18,10 +18,45 @@
         android:hint="Sửa mô tả"
         android:layout_marginTop="8dp" />
 
+    <!-- Thêm phần chọn mức độ ưu tiên -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mức độ ưu tiên:"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgUuTien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbThap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thấp"
+            android:layout_marginEnd="16dp"/>
+
+        <RadioButton
+            android:id="@+id/rbTrungBinh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trung bình"
+            android:layout_marginEnd="16dp"/>
+
+        <RadioButton
+            android:id="@+id/rbCao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cao"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/btnLuuCongViec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Lưu lại"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="24dp"/>
 </LinearLayout>
